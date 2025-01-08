@@ -12,9 +12,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TodoDto {
-	private Long idd;
+	private Long id;
 	private String title;
-	private Date description;
+	private String description;
 	private boolean completed;
 	
 
