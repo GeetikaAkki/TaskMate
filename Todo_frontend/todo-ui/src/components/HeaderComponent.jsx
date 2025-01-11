@@ -7,7 +7,7 @@ const HeaderComponent = () => {
             <nav className='navbar navbar-expand-md navbar-dark bg-dark'>
                 <div>
                     <a href='http://localhost:5173' className='navbar-brand'>
-                        Todo Management Application
+                        Task Management Application
                     </a>
                 </div>
             </nav>

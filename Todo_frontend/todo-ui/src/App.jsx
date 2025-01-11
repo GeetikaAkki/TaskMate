@@ -23,9 +23,10 @@ function App() {
           <Route path='/todos' element={<ListTodoComponent/>}> 
 
            </Route>
-           <Route path='/add-todo' element={<TodoComponent/>}> 
+           <Route path='/add-todo' element={<TodoComponent/>}> </Route>
+           <Route path='/update-todo/:id' element={<TodoComponent/>}></Route>
 
-           </Route>
+           
         </Routes>
       
        
