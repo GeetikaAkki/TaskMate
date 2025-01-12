@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,6 +19,7 @@ import com.example.Todo.dto.TodoDto;
 import com.example.Todo.service.TodoService;
 
 import lombok.AllArgsConstructor;
+@CrossOrigin("*")
 
 @RestController
 @RequestMapping("api/todos")
