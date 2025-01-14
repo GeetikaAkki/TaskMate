@@ -6,6 +6,8 @@ import java.beans.Customizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -18,9 +20,13 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
+import lombok.AllArgsConstructor;
+
 @Configuration
 @EnableMethodSecurity
+@AllArgsConstructor
 public class SpringSecurityConfig {
+	private UserDetailsService userDetailsService;
 	@Bean
 	public static PasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder();
@@ -53,13 +59,17 @@ public class SpringSecurityConfig {
 	    );
 		return http.build();
 	}
-	
-	
 	@Bean
+	public AuthenticationManager authenticationManager (AuthenticationConfiguration configuration) throws Exception {
+		return configuration.getAuthenticationManager();
+		
+	}
+	
+/*	@Bean
 	public UserDetailsService userDetailsService() {
 		UserDetails geetika=User.builder()
 		.username("geetika")
-		.password(passwordEncoder().encode("password"))
+		.password(passwordEncoder().encode("akki"))
 		.roles("USER")
 		.build();
 		
@@ -70,5 +80,5 @@ public class SpringSecurityConfig {
 				.build();
 		return new InMemoryUserDetailsManager(geetika, admin);
 		
-	}
+	}*/
 }
