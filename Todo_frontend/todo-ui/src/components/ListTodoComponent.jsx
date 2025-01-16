@@ -3,58 +3,89 @@ import { completeTodo, deleteTodo, getAllTodos, inCompleteTodo } from '../servic
 import { useNavigate } from 'react-router-dom'
 
 const ListTodoComponent = () => {
-
-    const [todos, setTodos] = useState([])
-
-    const navigate = useNavigate()
-
+    const [todos, setTodos] = useState([]);
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         listTodos();
-    }, [])
+    }, []);
     
-    function listTodos(){
-        getAllTodos().then((response) => {
-            setTodos(response.data);
-        }).catch(error => {
-            console.error(error);
-        })
+    function listTodos() {
+        getAllTodos()
+            .then((response) => {
+                setTodos(response.data);
+                setError(null); 
+            })
+            .catch(error => {
+                console.error(error);
+                if (error.response?.status === 401) {
+                    // Unauthorized - redirect to login
+                    localStorage.removeItem('token');
+                    navigate('/login');
+                } else {
+                    setError('Failed to fetch todos. Please try again.');
+                }
+            });
     }
 
-    function addNewTodo(){
-        navigate('/add-todo')
-
+    function addNewTodo() {
+        navigate('/add-todo');
     }
 
-    function updateTodo(id){
-        console.log(id)
-        navigate(`/update-todo/${id}`)
+    function updateTodo(id) {
+        navigate(`/update-todo/${id}`);
     }
     
-    function removeTodo(id){
-        deleteTodo(id).then((response) => {
-            listTodos();
-        }).catch(error => {
-            console.error(error)
-        })
+    function removeTodo(id) {
+        deleteTodo(id)
+            .then((response) => {
+                listTodos();
+            })
+            .catch(error => {
+                console.error(error);
+                if (error.response?.status === 401) {
+                    localStorage.removeItem('token');
+                    navigate('/login');
+                } else {
+                    setError('Failed to delete todo. Please try again.');
+                }
+            });
     }
 
-    function markCompleteTodo(id){
-        completeTodo(id).then((response) => {
-            listTodos()
-        }).catch(error => {
-            console.error(error)
-        })
+    function markCompleteTodo(id) {
+        completeTodo(id)
+            .then((response) => {
+                listTodos();
+            })
+            .catch(error => {
+                console.error(error);
+                if (error.response?.status === 401) {
+                    localStorage.removeItem('token');
+                    navigate('/login');
+                } else {
+                    setError('Failed to mark todo as complete. Please try again.');
+                }
+            });
     }
 
-    function markInCompleteTodo(id){
-        inCompleteTodo(id).then((response) => {
-            listTodos();
-        }).catch(error => {
-            console.error(error)
-        })
+    function markInCompleteTodo(id) {
+        inCompleteTodo(id)
+            .then((response) => {
+                listTodos();
+            })
+            .catch(error => {
+                console.error(error);
+                if (error.response?.status === 401) {
+                    localStorage.removeItem('token');
+                    navigate('/login');
+                } else {
+                    setError('Failed to mark todo as incomplete. Please try again.');
+                }
+            });
     }
 
+   
   return (
     <div className='container'>
         <h2 className='text-center'>List of Tasks</h2>
