@@ -44,12 +44,7 @@ const ListTodoComponent = () => {
             })
             .catch(error => {
                 console.error(error);
-                if (error.response?.status === 401) {
-                    localStorage.removeItem('token');
-                    navigate('/login');
-                } else {
-                    setError('Failed to delete todo. Please try again.');
-                }
+               
             });
     }
 

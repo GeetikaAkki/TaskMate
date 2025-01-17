@@ -18,6 +18,7 @@ import com.example.Todo.entity.User;
 import com.example.Todo.exception.TodoAPIException;
 import com.example.Todo.repository.RoleRepository;
 import com.example.Todo.repository.UserRepository;
+import com.example.Todo.security.JwtTokenProvider;
 import com.example.Todo.service.AuthService;
 
 import jakarta.persistence.EntityManager;
@@ -29,6 +30,7 @@ public class AuthServiceImpl implements AuthService {
 	private RoleRepository roleRepository;
 	private PasswordEncoder passwordEncoder;
 	private AuthenticationManager authenticationManager;
+	private JwtTokenProvider jwtTokenProvider;
 	
 
 	  @Override
@@ -74,8 +76,9 @@ public class AuthServiceImpl implements AuthService {
 				loginDto.getPassword()
 				));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
+		String token=jwtTokenProvider.generateToken(authentication);
 		
-		return "User logged in successfully";
+		return token;
 	}
 
 }

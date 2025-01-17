@@ -12,7 +12,7 @@ axiosInstance.interceptors.request.use(
         const token = getToken();
         if (token) {
            
-            config.headers.Authorization = token.startsWith('Basic ') ? token : `Basic ${token}`;
+            config.headers.Authorization = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
         }
         return config;
     },

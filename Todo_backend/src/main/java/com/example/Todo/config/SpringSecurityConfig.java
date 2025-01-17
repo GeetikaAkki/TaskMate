@@ -18,7 +18,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+
+import com.example.Todo.security.JwtAuthenticationEntryPoint;
+import com.example.Todo.security.JwtAuthenticationFilter;
 
 import lombok.AllArgsConstructor;
 
@@ -27,6 +31,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class SpringSecurityConfig {
 	private UserDetailsService userDetailsService;
+	private JwtAuthenticationEntryPoint authenticationEntryPoint;
+	private JwtAuthenticationFilter authenticationFilter;
 	@Bean
 	public static PasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder();
@@ -45,6 +51,7 @@ public class SpringSecurityConfig {
 	   // authz.requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("ADMIN","USER");
 	   // authz.requestMatchers(HttpMethod.PATCH, "/api/**").hasAnyRole("ADMIN","USER");
 	    	authz.requestMatchers("/api/auth/**").permitAll();
+	    	authz.requestMatchers(HttpMethod.OPTIONS,"/**").permitAll();
 	    
 
 	        authz.anyRequest().authenticated();
@@ -58,6 +65,9 @@ public class SpringSecurityConfig {
 	        .authenticationEntryPoint(new BasicAuthenticationEntryPoint())
 	        
 	    );
+		http.exceptionHandling(exception->exception 
+				.authenticationEntryPoint(authenticationEntryPoint));
+		http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
 	@Bean

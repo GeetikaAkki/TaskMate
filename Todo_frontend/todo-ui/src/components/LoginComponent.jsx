@@ -10,7 +10,8 @@ const LoginComponent = () => {
         try {
             const response = await loginAPICall(usernameOrEmail, password);
             
-            const token = 'Basic ' + window.btoa(`${usernameOrEmail}:${password}`);
+           // const token = 'Basic ' + window.btoa(`${usernameOrEmail}:${password}`);
+           const token='Bearer ' +response.data.accessToken;
             console.log(token);
             storeToken(token);
             saveLoggedInUser(usernameOrEmail);
