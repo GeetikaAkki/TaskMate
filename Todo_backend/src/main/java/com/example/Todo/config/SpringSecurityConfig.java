@@ -58,13 +58,10 @@ public class SpringSecurityConfig {
 
 	    })
 
-	    .httpBasic(httpBasic -> {})
+	    .httpBasic(httpBasic -> {});
 
-	    .exceptionHandling((exceptions) -> exceptions
-
-	        .authenticationEntryPoint(new BasicAuthenticationEntryPoint())
-	        
-	    );
+	   
+	    
 		http.exceptionHandling(exception->exception 
 				.authenticationEntryPoint(authenticationEntryPoint));
 		http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);

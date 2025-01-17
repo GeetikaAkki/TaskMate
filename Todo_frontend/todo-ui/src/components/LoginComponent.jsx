@@ -9,18 +9,22 @@ const LoginComponent = () => {
         e.preventDefault();
         try {
             const response = await loginAPICall(usernameOrEmail, password);
+            console.log('Response data:', response.data);
             
            // const token = 'Basic ' + window.btoa(`${usernameOrEmail}:${password}`);
            const token='Bearer ' +response.data.accessToken;
+           const role=response.data.role;
+           
             console.log(token);
             storeToken(token);
-            saveLoggedInUser(usernameOrEmail);
+            saveLoggedInUser(usernameOrEmail, response.data.role);
             navigator("/todos");
             window.location.reload(false);
         } catch (error) {
             console.error(error);
         }
     }
+    
     return (
         <div className='container'>
             <br /> <br />
